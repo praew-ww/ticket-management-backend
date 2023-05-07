@@ -50,7 +50,11 @@ app.post('/create', (req, res) => {
 app.put('/update', (req,res)  => {
     const id = req.body.id;
     const title = req.body.title;
-    db.query("UPDATE ticket SET title = ? WHERE id = ?", [title, id], (err, result)=> {
+    const description = req.body.description;
+    const call_number = req.body.call_number;
+    const email = req.body.website;
+    
+    db.query("UPDATE ticket SET title = ?, description = ?, call_number = ?, email = ? WHERE id = ?", [title, description, call_number, email, id], (err, result)=> {
         if(err) {
             console.log(err, 'back')
         }else{
