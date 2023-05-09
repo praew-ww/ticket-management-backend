@@ -9,14 +9,12 @@ app.use(express.json());
 
 const db = mysql.createConnection({
     user: 'root',
-    host: 'localhost',
-    // password: 'password',
-    password: '',
+    host: 'host.docker.internal',
+    password: 'password',
     database: 'ticket',
-    port: 3306
-    // socketPath: '/var/run/mysqld/mysqld.sock'
+    port: 3306,
+    charset: 'utf8mb4'
 })
-
 
 
 app.get('/ticket', (req, res) => {
@@ -37,10 +35,10 @@ app.post('/create', (req, res) => {
     const title = req.body.title
     const description = req.body.description
     const call_number = req.body.call_number
-    const email = req.body.email
+    const website = req.body.website
     const status = req.body.status
 
-    db.query("INSERT INTO ticket (title, description, call_number, email, status) VALUES(?,?,?,?,?)", [title, description, call_number, email, status],
+    db.query("INSERT INTO ticket (title, description, call_number, website, status) VALUES(?,?,?,?,?)", [title, description, call_number, website, status],
     (err, result) => {
         if (err) {
             console.log(err)
@@ -56,10 +54,10 @@ app.put('/update', (req,res)  => {
     const title = req.body.title;
     const description = req.body.description;
     const call_number = req.body.call_number;
-    const email = req.body.website;
+    const website = req.body.website;
     const status = req.body.status;
     
-    db.query("UPDATE ticket SET title = ?, description = ?, call_number = ?, email = ?, status = ? WHERE id = ?", [title, description, call_number, email, status, id], (err, result)=> {
+    db.query("UPDATE ticket SET title = ?, description = ?, call_number = ?, website = ?, status = ? WHERE id = ?", [title, description, call_number, website, status, id], (err, result)=> {
         if(err) {
             console.log(err, 'back')
         }else{

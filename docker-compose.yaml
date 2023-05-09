@@ -8,13 +8,19 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
+      - MYSQL_CHARSET=utf8mb4
+      - MYSQL_INITDB_CHARSET=utf8mb4
+    command: >
+      bash -c "
+      chmod 644 /etc/mysql/mysql.conf.d/*.cnf
+      && /entrypoint.sh mysqld
+      "
     ports:
       - $MYSQLDB_PORT:$MYSQLDB_PORT
     volumes:
       - ./sql/mock:/docker-entrypoint-initdb.d
-
-    networks:
-      - backend
+      - ./mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      - ./mysqld.cnf:/etc/mysql/my.cnf
 
   backend-api:
     depends_on:
@@ -23,12 +29,3 @@ services:
     restart: unless-stopped
     ports:
       - 3001:3001
-
-    networks:
-      - backend
-
-volumes:
-  db:
-
-networks:
-  backend:
