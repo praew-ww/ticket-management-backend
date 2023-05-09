@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors')
-// const Quote = require('ins;pirational-quotes');
 
 const app = express();
 const mysql = require('mysql');
@@ -9,11 +8,16 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-    user: "root",
-    host: "localhost",
-    password: "",
-    database: "ticket"
+    user: 'root',
+    host: 'localhost',
+    // password: 'password',
+    password: '',
+    database: 'ticket',
+    port: 3306
+    // socketPath: '/var/run/mysqld/mysqld.sock'
 })
+
+
 
 app.get('/ticket', (req, res) => {
     db.query("SELECT * FROM ticket", (err, result) => {
@@ -53,8 +57,9 @@ app.put('/update', (req,res)  => {
     const description = req.body.description;
     const call_number = req.body.call_number;
     const email = req.body.website;
+    const status = req.body.status;
     
-    db.query("UPDATE ticket SET title = ?, description = ?, call_number = ?, email = ? WHERE id = ?", [title, description, call_number, email, id], (err, result)=> {
+    db.query("UPDATE ticket SET title = ?, description = ?, call_number = ?, email = ?, status = ? WHERE id = ?", [title, description, call_number, email, status, id], (err, result)=> {
         if(err) {
             console.log(err, 'back')
         }else{
@@ -62,4 +67,6 @@ app.put('/update', (req,res)  => {
         }
     })
 })
+
+
 
