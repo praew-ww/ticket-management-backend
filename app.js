@@ -3,17 +3,21 @@ const cors = require('cors')
 
 const app = express();
 const mysql = require('mysql');
+const dotenv = require('dotenv');
+dotenv.config();
 
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createConnection({
-    user: MYSQLDB_USER,
-    host: MYSQLDB_HOST,
-    password: MYSQLDB_ROOT_PASSWORD,
-    database: MYSQLDB_DATABASE,
-    port: MYSQLDB_PORT,
+const db =  mysql.createConnection({
+    user: process.env.MYSQLDB_USER,
+    host: process.env.MYSQLDB_HOST,
+    password: process.env.MYSQLDB_ROOT_PASSWORD,
+    database: process.env.MYSQLDB_DATABASE,
+    port: process.env.MYSQLDB_PORT,
 })
+
+
 
 
 app.get('/ticket', (req, res) => {
