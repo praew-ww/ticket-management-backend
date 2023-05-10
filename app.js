@@ -8,12 +8,11 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-    user: 'root',
-    host: 'host.docker.internal',
-    password: 'password',
-    database: 'ticket',
-    port: 3306,
-    charset: 'utf8mb4'
+    user: MYSQLDB_USER,
+    host: MYSQLDB_HOST,
+    password: MYSQLDB_ROOT_PASSWORD,
+    database: MYSQLDB_DATABASE,
+    port: MYSQLDB_PORT,
 })
 
 
